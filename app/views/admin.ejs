@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title -->
+    <title>Duy Blog Admin</title>
+
+    <!-- Favicon -->
+	<link rel="icon" type="image/png" sizes="36x36" href="/img/core-img/favicon36.png">
+
+    <!-- Style CSS -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+	    body {
+		    font-family: "Sans-serif", Times, serif;
+		}
+
+    </style>
+</head>
+
+<body>
+	<% include ./header %>
+	<br>
+	<div class="container">
+	  <h2 style="text-align:left;float:left;">All Post
+	  </h2>
+	  <h2 style="text-align:right;float:right;">
+	  	<button type="button" class="btn btn-success" onclick="newPost()">New Post</button>
+	  </h2>
+	  <table class="table">
+	    <thead>
+	      <tr>
+	        <th>Tiêu Đề</th>
+	        <th>Tác Giả</th>
+	        <th>Mục</th>
+	        <th>Ngày Đăng</th>
+	        <th>Hành Động</th>
+	      </tr>
+	    </thead>
+	    <tbody>
+	    <% if(found != null && found.length > 0){ 
+	    	found.forEach(function(post){
+	    	%>
+	      <tr>
+	        <td style="width: 45%"><%= post.title %></td>
+	        <td><%= post.author %></td>
+	        <td><%= post.category %></td>
+	        <td><%= post.date %></td>
+	        <td>
+	        	<button type="button" class="btn btn-primary" onclick="editpost('<%= post._id %>')">Edit</button>
+	        	<button type="button" class="btn btn-danger" onclick="deletepost('<%= post._id %>')">Delete</button>
+	        </td>
+	      </tr>
+	    <%
+
+		    })
+		 		}
+	 	%>
+	    </tbody>
+	  </table>
+	</div>
+	<div class="container" id="postplace">
+	</div>
+
+	<% include ./footer %>
+	    <!-- jQuery (Necessary for All JavaScript Plugins) -->
+    <script src="/js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="/js/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="/js/bootstrap.min.js"></script>
+    <!-- Plugins js -->
+    <script src="/js/plugins.js"></script>
+    <!-- Active js -->
+    <script src="/js/active.js"></script>
+    <script src="/js/admin.js"></script>
+    <script src="js/sweetalert2.all.min.js"></script>
+	<link rel="stylesheet" href="/css/sweetalert2.css">
+</body>
+
+</html>
