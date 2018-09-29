@@ -1,14 +1,20 @@
 $(document).ready(()=>{
-	GetAllpost();
+	getpostdata();
 })
 
+function getpostdata () {
+	let categoryname = window.location.pathname.slice(window.location.pathname.lastIndexOf('/') + 1, window.location.pathname.length);
+	let data = {
+		categoryname: categoryname
+	}
 
-function GetAllpost () {
 	$.ajax({
 		type: "POST",
-		url: "/getallpost",
+		url: "/getdata",
+		data: data,
 		success: function(json){
-			data = json.found
+			let data = json.data
+			if(data != 0){
 			const monthNames = ["December", "January", "February", "March", "April", "May", "June",
 			  "July", "August", "September", "October", "November"]
 			let placemainpost = document.getElementById('placemainpost');
@@ -40,7 +46,7 @@ function GetAllpost () {
                             <div class="col-12 col-md-6">
                                 <div class="single-blog-content">
                                     <div class="line"></div>
-                                    <a href="/category/`+ data[i].category +`" style="font-family: 'Sans-serif', Times, serif" class="post-tag">`+ data[i].category +`</a>
+                                    <a href="#" style="font-family: 'Sans-serif', Times, serif" class="post-tag">`+ data[i].category +`</a>
                                     <h4><a style="font-family: 'Sans-serif', Times, serif" href="/post/`+ data[i].url + `.`+ data[i]._id +`.html" class="post-headline">`+ data[i].title +`</a></h4>
                                     <p style="font-family: 'Sans-serif', Times, serif;   overflow: hidden;  height: 50px;  text-overflow: ellipsis;">`+ data[i].content +`</p>
                                     <div class="post-meta">
@@ -53,8 +59,9 @@ function GetAllpost () {
 			}
 			
 			placemainpost.innerHTML = mainpost;
-            latesvscategory();
+			latesvscategory();
 			return;
+			}
 		}
 	})
 }
