@@ -26,43 +26,13 @@
 <body>
 	<% include ./header %>
 	<br>
-	<div class="container">
-	  <h2 style="text-align:left;float:left;">All Post
-	  </h2>
-	  <h2 style="text-align:right;float:right;">
-	  	<button type="button" class="btn btn-success" onclick="newPost()">New Post</button>
-	  </h2>
-	  <table class="table">
-	    <thead>
-	      <tr>
-	        <th>Tiêu Đề</th>
-	        <th>Tác Giả</th>
-	        <th>Mục</th>
-	        <th>Ngày Đăng</th>
-	        <th>Hành Động</th>
-	      </tr>
-	    </thead>
-	    <tbody>
-	    <% if(found != null && found.length > 0){ 
-	    	found.forEach(function(post){
-	    	%>
-	      <tr>
-	        <td style="width: 45%"><%= post.title %></td>
-	        <td><%= post.author %></td>
-	        <td><%= post.category %></td>
-	        <td><%= post.date %></td>
-	        <td>
-	        	<button type="button" class="btn btn-primary" onclick="editpost('<%= post._id %>')">Edit</button>
-	        	<button type="button" class="btn btn-danger" onclick="deletepost('<%= post._id %>')">Delete</button>
-	        </td>
-	      </tr>
-	    <%
+	<div class="container" >
+		
+		<button type="button" class="btn btn-info" onclick="showallpost()">All Post</button>
+		<button type="button" class="btn btn-info" onclick="showallslide()">All Slides</button>
 
-		    })
-		 		}
-	 	%>
-	    </tbody>
-	  </table>
+		<div id="placetable">
+		</div>
 	</div>
 	<div class="container" id="postplace">
 	</div>

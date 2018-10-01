@@ -1,3 +1,129 @@
+function showallpost(){
+	let placetable = document.getElementById('placetable');
+	let postplace = document.getElementById('postplace');
+	let data = {
+		type: "post"
+	}
+
+	$.ajax({
+		type: "POST",
+		url: "/getcontentdata",
+		data: data,
+		success: function(json){
+			let data = json.found
+			let str = `
+					<br>
+				  <h2 style="text-align:left;float:left;" id="type">All Post</h2>
+				  <h2 style="text-align:right;float:right;">
+				  	<button type="button" class="btn btn-success" onclick="newPost()">New Post</button>
+				  </h2>
+				  <table class="table">
+				    <thead>
+				      <tr>
+				        <th>Tiêu Đề</th>
+				        <th>Tác Giả</th>
+				        <th>Mục</th>
+				        <th>Ngày Đăng</th>
+				        <th>Hành Động</th>
+				      </tr>
+				    </thead>
+				    <tbody>`
+			for(var i=0; i< data.length; i++){
+				str += `
+				      <tr>
+				        <td style="width: 45%">`+ data[i].title +`</td>
+				        <td>`+ data[i].author +`</td>
+				        <td>`+ data[i].category +`</td>
+				        <td>`+ data[i].date +`</td>
+				        <td>
+				        	<button type="button" class="btn btn-primary" onclick="editpost('`+ data[i]._id +`')">Edit</button>
+				        	<button type="button" class="btn btn-danger" onclick="deletepost('`+ data[i]._id +`')">Delete</button>
+				        </td>
+				      </tr>
+						`
+			}
+
+			str += `</tbody>
+				  </table>`
+			placetable.innerHTML= str;
+			postplace.innerHTML = "";
+		}
+	})
+}
+
+function showallslide(){
+	let placetable = document.getElementById('placetable');
+	let postplace = document.getElementById('postplace');
+	let data = {
+		type: "slide"
+	}
+	$.ajax({
+		type: "post",
+		url: "/getcontentdata",
+		data: data,
+		success: function(json){
+			let data = json.found
+
+			let str = `
+					<br>
+				  <h2 style="text-align:left;float:left;" id="type">All Slides</h2>
+				  <h2 style="text-align:right;float:right;">
+				  	<button type="button" class="btn btn-success" onclick="newSlide()">New Slide</button>
+				  </h2>
+				  <table class="table">
+				    <thead>
+				      <tr>
+				        <th>Tiêu Đề</th>
+				        <th>Mục</th>
+				        <th>Hành Động</th>
+				      </tr>
+				    </thead>
+				    <tbody>`
+			for(var i=0; i< data.length; i++){
+				str += `
+				      <tr>
+				        <td style="width: 45%">`+ data[i].title +`</td>
+				        <td>`+ data[i].category +`</td>
+				        <td>
+				        	<button type="button" class="btn btn-primary" onclick="editpost('`+ data[i]._id +`')">Edit</button>
+				        	<button type="button" class="btn btn-danger" onclick="deletepost('`+ data[i]._id +`')">Delete</button>
+				        </td>
+				      </tr>
+					`
+			}
+
+			str += `</tbody>
+				  </table>`
+
+			placetable.innerHTML= str;
+			postplace.innerHTML = "";
+		}
+	})
+
+}
+
+function newSlide(){
+	let postplace = document.getElementById('postplace');
+	let str = `<div class="container">
+		<h2 for="usr" style="font-family: 'Sans-serif', Times, serif;">Slide Mới</h2>
+		<h4 id="error" style="color: red" ></h4>
+	    <div class="form-group">
+	      <label for="usr">Tiêu đề</label>
+	      <input type="text" class="form-control" name="title" id="title" required>
+	    </div>
+	    <div class="form-group">
+	      <label for="pwd">Loại</label>
+	      <input type="text" class="form-control" id="category" name="category" required>
+	    </div>
+		<div class="form-group">
+			<label for="exampleFormControlFile1">Upload ảnh bìa</label>
+			<input type="file" class="form-control-file" id="image" name="image" required>
+		</div>
+		 <button  type="button" class="btn btn-success" onclick="sendData()">New Post</button>
+		`
+	postplace.innerHTML = str;
+	return;
+}
 
 function newPost(){
 	let postplace = document.getElementById('postplace');
@@ -88,7 +214,14 @@ function sendData(id){
 		url: to_slug($("#title").val()),
 		img: $("#hinhanh").attr('src')
 	}
-	console.log(datasend);
+	if($("#type").html() == "All Post"){
+		datasend.type = "post"
+	}
+
+	if($("#type").html() == "All Slides"){
+		datasend.type = "slide";
+		delete datasend.url;
+	}
 	// make dataform
     var data = new FormData();
     data.append('datasend',JSON.stringify(datasend));

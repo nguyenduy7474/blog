@@ -4,6 +4,15 @@ function latesvscategory(){
 		url: "/getallpost",
 		success: function(json){
 			data = json.found
+			let slide = [];
+			
+			for(var i=0; i<data.length; i++){
+				if(data[i].type == "slide"){
+					slide.push(data.slice(i, i+1)[0])
+					data.splice(i, 1)
+				}
+			}
+
 			const monthNames = ["December", "January", "February", "March", "April", "May", "June",
 			  "July", "August", "September", "October", "November"]
 			let placesidepost = document.getElementById('placesidepost');

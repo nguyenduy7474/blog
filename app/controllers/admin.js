@@ -10,7 +10,14 @@ newdate = day + "/" + month + "/" + year;
 class Admin {
 	static admin(req, res){
 		Content.find({}, function (err, found) {
-			res.render('admin', {found: found});
+			res.render('admin');
+		})
+	}
+
+	static getcontentdata(req, res){
+		let type = req.body.type
+		Content.find({type: type}, function (err, found) {
+			res.send({found: found});
 		})
 	}
 

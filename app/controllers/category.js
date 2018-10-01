@@ -3,9 +3,6 @@ const Content = require('../models/content');
 
 class Category{
 	static page(req, res){
-		
-		/*Content.find()
-		res.render()*/
 		res.render('category');
 	}
 

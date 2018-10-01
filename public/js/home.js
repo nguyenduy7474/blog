@@ -1,18 +1,24 @@
-$(document).ready(()=>{
-	GetAllpost();
-})
 
-
-function GetAllpost () {
 	$.ajax({
 		type: "POST",
 		url: "/getallpost",
 		success: function(json){
 			data = json.found
+			let slide = [];
+
+			for(var i=0; i<data.length; i++){
+				if(data[i].type == "slide"){
+					slide.push(data.slice(i, i+1)[0])
+					data.splice(i, 1)
+				}
+			}
+
 			const monthNames = ["December", "January", "February", "March", "April", "May", "June",
 			  "July", "August", "September", "October", "November"]
 			let placemainpost = document.getElementById('placemainpost');
+			let placemainslide = document.getElementById('placemainslide');
 			let mainpost = ""
+			let strslide = ""
 
 			data.forEach(function(post){
 				let date = post.date;
@@ -24,6 +30,24 @@ function GetAllpost () {
 				post.month = month
 				post.content = post.content.slice(0, post.content.indexOf('\n'));
 			})
+
+			for(var i=0; i<slide.length;i++){
+				strslide += `            
+			            <div class="single-hero-slide bg-img" style="background-image: url(`+ slide[i].img +`);">
+			                <div class="container h-100">
+			                    <div class="row h-100 align-items-center">
+			                        <div class="col-12">
+			                            <div class="slide-content text-center">
+			                                <div class="post-tag">
+			                                    <a href="`+ slide[i].category +`" data-animation="fadeInUp">`+ slide[i].category +`</a>
+			                                </div>
+			                                <h2 data-animation="fadeInUp" data-delay="250ms"><a href="single-post.html" style="font-family: 'Sans-serif', Times, serif">`+ slide[i].title +`</a></h2>
+			                            </div>
+			                        </div>
+			                    </div>
+			                </div>
+			            </div>`
+			}
 
 			for(var i=0; i<data.length; i++){
 				mainpost += `               
@@ -51,10 +75,10 @@ function GetAllpost () {
                         </div>
                     </div>`
 			}
-			
+
+			placemainslide.innerHTML = strslide;
 			placemainpost.innerHTML = mainpost;
             latesvscategory();
 			return;
 		}
 	})
-}

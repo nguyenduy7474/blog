@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 
 //define schema
 var Content = mongoose.Schema({
+	type: String,
 	title: String,
 	content: String,
 	category: String,

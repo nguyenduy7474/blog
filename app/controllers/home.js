@@ -14,6 +14,7 @@ class Home {
 		Content.find({}, function (err, found){
 			res.send({found: found});
 		})
+		
 	}
 
 }
