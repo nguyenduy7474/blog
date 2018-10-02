@@ -1,3 +1,13 @@
+$(document).ready(()=>{
+	var input = document.getElementById("search");;
+	input.addEventListener("keyup", function(event) {
+	    event.preventDefault();
+	    if (event.keyCode === 13) {
+	        searching(input.value)
+	    }
+	});
+})
+
 function latesvscategory(){
 		$.ajax({
 		type: "POST",
@@ -19,6 +29,7 @@ function latesvscategory(){
 			let placecategory = document.getElementById('category')
 			let sidepost = ""
 			let category = ""
+			let listcategory = [];
 
 			data.forEach(function(post){
 				let date = post.date;
@@ -29,6 +40,7 @@ function latesvscategory(){
 				post.day = day
 				post.month = month
 			})
+
 			for(var i=data.length -1 ; i>=0; i--){
                 if(i>data.length -3){
                 	sidepost += `<div class="single-blog-post d-flex align-items-center widget-post">
@@ -45,12 +57,36 @@ function latesvscategory(){
                                 </div>
                                 `
                 }
-                category +=  "<li><a href='/category/"+ data[i].category +"'>"+ data[i].category +"</a></li>"
+                if(!listcategory.includes(data[i].category)){
+                	category +=  "<li><a href='/category/"+ data[i].category +"'>"+ data[i].category +"</a></li>"
+                	listcategory.push(data[i].category)
+                }
+
 			}
 			
 			placesidepost.innerHTML = sidepost;
 			placecategory.innerHTML = category;
 			return;
+		}
+	})
+}
+
+function searching(valuesearch){
+	if(valuesearch == ''){
+		return;
+	}
+	let data = {
+		value: valuesearch
+	}
+	$.ajax({
+		type: "POST",
+		url: "/search",
+		data: data,
+		success: function(json){
+			data = json.data;
+			let text = document.getElementById('containerpost');
+			text.innerHTML = 'Kết quả tìm kiếm:'
+			render(data);
 		}
 	})
 }
