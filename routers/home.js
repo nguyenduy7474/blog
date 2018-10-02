@@ -10,4 +10,5 @@ module.exports = function (app, passport) {
     app.get('/', Home.homepage);//home
     app.get('/home', Home.homepage);//home
     app.post('/getallpost', Home.getallpost);//home
+    app.post('/search', Home.searching);//home
 }

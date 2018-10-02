@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="">
@@ -9,89 +8,41 @@
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title -->
-    <% if(found != null){%>
-    <title><%= found.title %></title>
+    <title>Duy Blog</title>
 
     <!-- Favicon -->
-    <link rel="icon" type="/image/png" sizes="36x36" href="/img/core-img/favicon36.png">
+    <link rel="icon" type="image/png" sizes="36x36" href="/img/core-img/favicon36.png">
 
     <!-- Style CSS -->
+    <script src="/js/jquery/jquery-2.2.4.min.js"></script>
+
+    <script src="/js/core.js"></script>
+
+    <script src="/js/home.js"></script>
+
     <link rel="stylesheet" href="/style.css">
+    <style>
+        body {
+            font-family: "Sans-serif", Times, serif;
+        }
+    </style>
 
 </head>
 
 <body>
     <% include ./header %>
 
-    <!-- ##### Single Blog Area Start ##### -->
-    <div class="single-blog-wrapper section-padding-0-100">
-
-        <!-- Single Blog Area  -->
-            <% 
-            const monthNames = ["December", "January", "February", "March", "April", "May", "June",
-              "July", "August", "September", "October", "November"]
-
-            let date = found.date;
-            let day = date.slice(0, date.indexOf('/'));
-            let month = date.slice(date.indexOf('/') + 1 , date.lastIndexOf('/'))
-
-            month = monthNames[month]
-            found.day = day
-            found.month = month
-
-
-            let content = "<p>" + found.content.slice(0, found.content.indexOf('\n')) + "</p>";
-    
-            while(found.content.indexOf('\n') != -1){
-               found.content = found.content.slice(found.content.indexOf('\n') + 1, found.content.length);
-                content = content + "<p>" + found.content.slice(0, found.content.indexOf('\n')) + "</p>";
-            }
-
-
-        %>
-        <div class="single-blog-area blog-style-2 mb-50">
-            <div class="single-blog-thumbnail">
-                <img height="100" width="100" src="<%= found.img %>" alt="">
-                <div class="post-tag-content">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="post-date">
-                                    <a href="#"><%= found.day %> <span><%= found.month %></span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+    <!-- ##### Blog Wrapper Start ##### -->
+    <div class="blog-wrapper section-padding-100 clearfix">
         <div class="container">
+            <h2 style="font-family: 'Sans-serif', Times, serif">Kết quả tìm kiếm</h2>
             <div class="row">
-                <!-- ##### Post Content Area ##### -->
-                <div class="col-12 col-lg-9">
-                    <!-- Single Blog Area  -->
-                    <div class="single-blog-area blog-style-2 mb-50">
-                        <!-- Blog Content -->
-                        <div class="single-blog-content">
-                            <div class="line"></div>
-                            <a href="#" style="font-family: 'Sans-serif', Times, serif" class="post-tag"><%= found.category %></a>
-                            <h4><a href="#" style="font-family: 'Sans-serif', Times, serif" class="post-headline mb-0"><%= found.title %></a></h4>
-                            <div style="font-family: 'Sans-serif', Times, serif"><%- content %></div>
-                        </div>
-                    </div>
+                <div class="col-12 col-lg-9" id="placemainpost">
 
-                    <!-- About Author -->
-                    <div class="blog-post-author mt-100 d-flex">
-                        <div class="author-info">
-                            <div class="line"></div>
-                            <span class="author-role">Author</span>
-                            <h4><a href="#" style="font-family: 'Sans-serif', Times, serif" class="author-name"><%= found.author %></a></h4>
-                        </div>
+                    <!-- Load More -->
+                    <div class="load-more-btn mt-100 wow fadeInUp" data-wow-delay="0.7s" data-wow-duration="1000ms">
+                        <a href="#" class="btn original-btn">Read More</a>
                     </div>
-                    <%
-                        }
-                    %>
                 </div>
 
                 <!-- ##### Sidebar Area ##### -->
@@ -101,7 +52,7 @@
                         <!-- Widget Area -->
                         <div class="sidebar-widget-area">
                             <h5 class="title">Advertisement</h5>
-                            <a href="#"><img src="/img/bg-img/add.gif" alt=""></a>
+                            <a href="#"><img src="img/bg-img/add.gif" alt=""></a>
                         </div>
 
                         <!-- Widget Area -->
@@ -115,7 +66,7 @@
 
                         <!-- Widget Area -->
                         <div class="sidebar-widget-area">
-                            <h5 class="title">Tags</h5>
+                            <h5 class="title">Category</h5>
                             <div class="widget-content">
                                 <ul class="tags" id="category">
 
@@ -127,7 +78,7 @@
             </div>
         </div>
     </div>
-    <!-- ##### Single Blog Area End ##### -->
+    <!-- ##### Blog Wrapper End ##### -->
 
     <!-- ##### Instagram Feed Area Start ##### -->
     <div class="instagram-feed-area">
@@ -144,7 +95,7 @@
         <div class="instagram-slides owl-carousel">
             <!-- Single Insta Feed -->
             <div class="single-insta-feed">
-                <img src="/img/instagram-img/1.png" alt="">
+                <img src="img/instagram-img/1.png" alt="">
                 <!-- Hover Effects -->
                 <div class="hover-effects">
                     <a href="#" class="d-flex align-items-center justify-content-center"><i class="fa fa-instagram"></i></a>
@@ -152,7 +103,7 @@
             </div>
             <!-- Single Insta Feed -->
             <div class="single-insta-feed">
-                <img src="/img/instagram-img/2.png" alt="">
+                <img src="img/instagram-img/2.png" alt="">
                 <!-- Hover Effects -->
                 <div class="hover-effects">
                     <a href="#" class="d-flex align-items-center justify-content-center"><i class="fa fa-instagram"></i></a>
@@ -160,7 +111,7 @@
             </div>
             <!-- Single Insta Feed -->
             <div class="single-insta-feed">
-                <img src="/img/instagram-img/3.png" alt="">
+                <img src="img/instagram-img/3.png" alt="">
                 <!-- Hover Effects -->
                 <div class="hover-effects">
                     <a href="#" class="d-flex align-items-center justify-content-center"><i class="fa fa-instagram"></i></a>
@@ -168,7 +119,7 @@
             </div>
             <!-- Single Insta Feed -->
             <div class="single-insta-feed">
-                <img src="/img/instagram-img/4.png" alt="">
+                <img src="img/instagram-img/4.png" alt="">
                 <!-- Hover Effects -->
                 <div class="hover-effects">
                     <a href="#" class="d-flex align-items-center justify-content-center"><i class="fa fa-instagram"></i></a>
@@ -176,7 +127,7 @@
             </div>
             <!-- Single Insta Feed -->
             <div class="single-insta-feed">
-                <img src="/img/instagram-img/5.png" alt="">
+                <img src="img/instagram-img/5.png" alt="">
                 <!-- Hover Effects -->
                 <div class="hover-effects">
                     <a href="#" class="d-flex align-items-center justify-content-center"><i class="fa fa-instagram"></i></a>
@@ -184,7 +135,7 @@
             </div>
             <!-- Single Insta Feed -->
             <div class="single-insta-feed">
-                <img src="/img/instagram-img/6.png" alt="">
+                <img src="img/instagram-img/6.png" alt="">
                 <!-- Hover Effects -->
                 <div class="hover-effects">
                     <a href="#" class="d-flex align-items-center justify-content-center"><i class="fa fa-instagram"></i></a>
@@ -192,7 +143,7 @@
             </div>
             <!-- Single Insta Feed -->
             <div class="single-insta-feed">
-                <img src="/img/instagram-img/7.png" alt="">
+                <img src="img/instagram-img/7.png" alt="">
                 <!-- Hover Effects -->
                 <div class="hover-effects">
                     <a href="#" class="d-flex align-items-center justify-content-center"><i class="fa fa-instagram"></i></a>
@@ -204,7 +155,8 @@
 
     <% include ./footer %>
     <!-- jQuery (Necessary for All JavaScript Plugins) -->
-    <script src="/js/jquery/jquery-2.2.4.min.js"></script>
+
+
     <!-- Popper js -->
     <script src="/js/popper.min.js"></script>
     <!-- Bootstrap js -->
@@ -214,10 +166,6 @@
     <!-- Active js -->
     <script src="/js/active.js"></script>
 
-    <script src="/js/core.js"></script>
-    <script>
-        latesvscategory()
-    </script>
 </body>
 
 </html>
