@@ -38,5 +38,8 @@
     "simple-encryptor": "latest",
     "sweetalert2": "^7.28.2",
     "underscore": "latest"
-  }
+  },
+  "scripts": {
+    "start": "node app.js"
+	}
 }
