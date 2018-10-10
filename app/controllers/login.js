@@ -39,6 +39,20 @@ class Login {
 		}
 	}
 
+	static async signup(req, res){
+
+		let data = req.body;
+
+		let user = new User(data)
+
+		user.save((err) => {
+			if(err) throw err
+
+			res.send({success : "1", status : 200});
+		})
+
+	}
+
 }
 
 module.exports = Login 

@@ -10,4 +10,5 @@ module.exports = function (app, passport) {
         failureFlash: true // allow flash messages
     }));*/
     app.post('/authen', Login.authen);
+    app.post('/signup', Login.signup);
 }

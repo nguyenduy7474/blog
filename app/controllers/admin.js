@@ -68,6 +68,12 @@ class Admin {
 		})
 
 	}
+
+	static logout(req, res){
+		req.session.destroy()
+		res.send({success: 1})
+	}
+
 }
 
 module.exports = Admin

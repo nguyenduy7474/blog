@@ -5,7 +5,7 @@ var User = mongoose.Schema({
 	email: String,
 	password: String,
 	name: String,
-	grant: String
+	grant: {type: String, default: "user"}
 });
 
 //create model

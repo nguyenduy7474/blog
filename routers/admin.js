@@ -23,4 +23,5 @@ module.exports = function (app, passport) {
     app.post('/savepost', upload.single('image'), Admin.savepost);//home
     app.post('/deletepost', Login.loggedIn, Admin.deletepost);//home
     app.post('/getcontentdata', Login.loggedIn, Admin.getcontentdata)
+    app.post('/logout', Login.loggedIn, Admin.logout);//home
 }

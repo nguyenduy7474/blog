@@ -277,8 +277,19 @@ function deletepost(id){
 
 }
 
-function to_slug(str)
-{
+function logout(){
+    $.ajax({
+        type: "POST",
+        url: "/logout",
+        success: function(data){
+        	if(data.success == 1){
+				window.location.href = '/'
+			}
+        }
+    })
+}
+
+function to_slug(str){
     // Chuyển hết sang chữ thường
     str = str.toLowerCase();     
  
