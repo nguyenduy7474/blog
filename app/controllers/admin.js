@@ -27,7 +27,9 @@ class Admin {
 		if(req.file){
 			if(data.id){
 				let path = process.cwd() + '/public' + data.img;
-				fs.unlinkSync(path);
+				if(fs.existsSync(path)){
+					fs.unlinkSync(path);
+				}
 			}
 
 			let path = req.file.destination.slice(req.file.destination.indexOf('img') - 1, req.file.destination.length) + req.file.filename
@@ -55,7 +57,9 @@ class Admin {
 		let id = req.body.id;
 		Content.findOne({_id: id}, function(err, found){
 			let path = process.cwd() + '/public' + found.img;
-			fs.unlinkSync(path);
+			if(fs.existsSync(path)){
+				fs.unlinkSync(path);
+			}
 
 			Content.remove({_id: id}, function(err){
 				if(err) throw err
