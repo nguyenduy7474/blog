@@ -1,7 +1,10 @@
 function SignIn(){
+    let email = $("#email").val()
+    let password = $("#password").val()
+
     data = {
-        email: $("#email").val(),
-        password: $("#password").val()
+        email: email,
+        password: password
     }
 
     $.ajax({
