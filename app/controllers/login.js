@@ -31,6 +31,7 @@ class Login {
 		let data = req.body;
 		User.findOne(data, function(err, found){
 			console.log(found)
+			console.log('ddddddddd');
 			if(found){
 				req.session.user = found.email
 				res.send({success : "1", status : 200});
