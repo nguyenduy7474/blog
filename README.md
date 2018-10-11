@@ -13,11 +13,11 @@ Blog đơn giản cho mọi người.  </br>
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ```npm install```
 
-Install xong vào chỉnh sửa đường dẫn database trong config/database.js.  </br>
-Sau đó run bằng 
+-Install xong vào chỉnh sửa đường dẫn database trong config/database.js.  </br>
+-Sau đó run bằng 
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ```npm start```
 
-Tài khoản đăng ký đầu tiên sẽ là quyền admin. Được quyền sửa và xóa các user </br>
+-Tài khoản đăng ký đầu tiên sẽ là quyền admin. Được quyền sửa và xóa các user </br>
 
 Tham khảo qua link: https://blogcuaduy.herokuapp.com</br>
