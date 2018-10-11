@@ -41,26 +41,48 @@ class Login {
 	}
 
 	static async signup(req, res){
-
+		let flag = 0;
 		let data = req.body;
-
-		if(data.name !== '' && data.email !== '' && data.password !== ''){
-			let user = new User(data)
-
-			user.save((err) => {
-				if(err) throw err
-
-				res.send({success : "1", status : 200});
-			})
+		if(data.name == '' || data.email == '' || data.password == ''){
+			res.send({failed : "Please input all fields", status : 200});
 		}else{
-				res.send({failed : "1", status : 200});
+			User.find({}, function(err, found){
+				if(err) throw err
+				if(found.length > 0){
+
+					found.forEach((user) => {
+
+						if(data.email == user.email){
+							flag = 1
+							return
+						}
+					})
+
+					if(flag == 1){
+						res.send({failed : "Email existed", status : 200})
+					}else{
+						let userdata = new User(data)
+						userdata.save((err) => {
+							if(err) throw err
+
+							res.send({success : "1", status : 200});
+						})
+					}
+				}else{
+					data.grant = 'admin'
+					let userdata = new User(data)
+					userdata.save((err) => {
+						if(err) throw err
+
+						res.send({success : "1", status : 200});
+					})
+				}
+			})
 		}
-
-
-
 	}
 
 }
 
 module.exports = Login 
+
 

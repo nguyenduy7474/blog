@@ -20,8 +20,12 @@ module.exports = function (app, passport) {
     app.get('/signup', home.signup);*/
 
     app.get('/admin', Login.loggedIn, Admin.admin);//home
+    app.post('/checkadmin', Login.loggedIn, Admin.checkadmin);//home
     app.post('/savepost', upload.single('image'), Admin.savepost);//home
     app.post('/deletepost', Login.loggedIn, Admin.deletepost);//home
     app.post('/getcontentdata', Login.loggedIn, Admin.getcontentdata)
     app.post('/logout', Login.loggedIn, Admin.logout);//home
+    app.post('/getallusers', Login.loggedIn, Admin.getallusers);//home
+    app.post('/deleteuser', Login.loggedIn, Admin.deleteuser);//home
 }
+

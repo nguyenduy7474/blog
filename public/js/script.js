@@ -58,9 +58,10 @@ function SignUp(){
         url: "/signup",
         data: data,
         success: function(data){
-            if(data.failed == "1"){
-                $("#errorcode").html("Please input all fields");
+            if(data.failed){
+                $("#errorcode").html(data.failed);
             }
+            console.log(data)
             if(data.success == "1"){
                 $("#errorcode").html("Sign Up Successfull");
                 let str = `

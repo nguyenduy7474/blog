@@ -4,15 +4,45 @@ var month = dateObj.getUTCMonth() + 1; //months from 1-12
 var day = dateObj.getUTCDate();
 var year = dateObj.getUTCFullYear();
 const fs = require('fs');
+const User = require("../models/user");
+
 
 newdate = day + "/" + month + "/" + year;
 
 class Admin {
-	static admin(req, res){
-		Content.find({}, function (err, found) {
-			res.render('admin');
+
+	static deleteuser(req, res){
+		let id = req.body.id
+		User.remove({_id: id}, function(err){
+			if(err) throw err;
+			res.send({success: 1})
 		})
 	}
+
+	
+	static getallusers(req, res){
+		User.find({grant: {$not: {$eq: "admin"}}}, function(err, found){
+			console.log(found)
+			res.send({found: found});
+		})
+	}
+
+	static admin(req, res){
+		res.render('admin');
+	}
+
+	static checkadmin(req, res){
+		let user = req.session.user;
+
+		User.findOne({email: user}, function (err, found) {
+			if(found.grant == 'admin'){
+				res.send({admin: true});
+			}else{
+				res.send({admin: false});
+			}
+		})
+	}
+
 
 	static getcontentdata(req, res){
 		let type = req.body.type
@@ -23,7 +53,6 @@ class Admin {
 
 	static savepost(req, res){
 		let data = JSON.parse(req.body.datasend);
-		console.log(data);
 		data.author = req.session.user
 		data.date = newdate;
 		if(req.file){

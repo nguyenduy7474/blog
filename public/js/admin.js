@@ -1,3 +1,101 @@
+$(document).ready(()=>{
+	checkadmin()
+})
+
+function checkadmin(){
+	$.ajax({
+		type: "POST",
+		url: "/checkadmin",
+		success: function(json){
+			let admin = json.admin;
+			let placebutton = document.getElementById("placebutton");
+			if(admin){
+				str = `	<button type="button" class="btn btn-primary" onclick="showallpost()">All Post</button>
+				<button type="button" class="btn btn-success" onclick="showallslide()">All Slides</button>
+        		<button type="button" class="btn btn-info" onclick="showallusers()">All Users</button>
+        		<button type="button" class="btn btn-default" style="float: right" onclick="logout()">Logout</button>`
+			}else{
+				str = `<button type="button" class="btn btn-primary" onclick="showallpost()">All Post</button>
+				<button type="button" class="btn btn-success" onclick="showallslide()">All Slides</button>
+        		<button type="button" class="btn btn-default" style="float: right" onclick="logout()">Logout</button>`
+			}
+
+			placebutton.innerHTML = str
+		}
+	})
+}
+
+function showallusers(){
+	let placetable = document.getElementById('placetable');
+	$.ajax({
+		type: "POST",
+		url: "/getallusers",
+		success: function(json){
+			let data = json.found
+			let str = `
+					<br>
+				  <h2 style="text-align:left;float:left;" id="type">All Users</h2>
+				  <table class="table">
+				    <thead>
+				      <tr>
+				        <th>Name</th>
+				        <th>Email</th>
+				        <th>Grant</th>
+				        <th>Hành Động</th>
+				      </tr>
+				    </thead>
+				    <tbody>`
+			for(var i=0; i< data.length; i++){
+				str += `
+				      <tr>
+				        <td style="width: 45%">`+ data[i].name +`</td>
+				        <td>`+ data[i].email +`</td>
+				        <td>`+ data[i].grant +`</td>
+				        <td>
+				        	<button type="button" class="btn btn-primary" onclick="edituser('`+ data[i]._id +`')">Edit</button>
+				        	<button type="button" class="btn btn-danger" onclick="deleteuser('`+ data[i]._id +`')">Delete</button>
+				        </td>
+				      </tr>
+						`
+			}
+
+			str += `</tbody>
+				  </table>`
+			placetable.innerHTML= str;
+		}
+	})
+}
+function deleteuser(id){
+	data = {
+		id: id
+	}
+	swal({
+	  title: 'Are you sure?',
+	  text: "You won't be able to revert this!",
+	  type: 'warning',
+	  showCancelButton: true,
+	  confirmButtonColor: '#3085d6',
+	  cancelButtonColor: '#d33',
+	  confirmButtonText: 'Yes, delete it!'
+	}).then((result) => {
+		if(result.value){
+			$.ajax({
+				type: "POST",
+				url: "/deleteuser",
+				data: data,
+				success: function(data){
+					if(data.success == 1){
+						window.location.href = '/admin'
+					}
+				}
+			})
+		}
+	})
+}
+
+
+
+
 function showallpost(){
 	let placetable = document.getElementById('placetable');
 	let postplace = document.getElementById('postplace');
