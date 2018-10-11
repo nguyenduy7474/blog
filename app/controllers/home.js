@@ -10,8 +10,9 @@ class Home {
 	}
 
 	static getallpost(req, res){
-
 		Content.find({}, function (err, found){
+			if(err) throw err
+			
 			res.send({found: found});
 		})
 	}

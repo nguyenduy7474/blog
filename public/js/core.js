@@ -1,25 +1,15 @@
-$(document).ready(()=>{
-	var input = document.getElementById("search");;
-	input.addEventListener("keyup", function(event) {
-	    event.preventDefault();
-	    if (event.keyCode === 13) {
-	        searching(input.value)
-	    }
-	});
-})
 
 function latesvscategory(){
 		$.ajax({
 		type: "POST",
 		url: "/getallpost",
 		success: function(json){
-			data = json.found
-			let slide = [];
+			let found = json.found
+			let data = [];
 			
-			for(var i=0; i<data.length; i++){
-				if(data[i].type == "slide"){
-					slide.push(data.slice(i, i+1)[0])
-					data.splice(i, 1)
+			for(var i=0; i<found.length; i++){
+				if(found[i].type == "post"){
+					data.push(found[i])
 				}
 			}
 
@@ -72,21 +62,28 @@ function latesvscategory(){
 }
 
 function searching(valuesearch){
-	if(valuesearch == ''){
-		return;
-	}
-	let data = {
-		value: valuesearch
-	}
-	$.ajax({
-		type: "POST",
-		url: "/search",
-		data: data,
-		success: function(json){
-			data = json.data;
-			let text = document.getElementById('containerpost');
-			text.innerHTML = 'Kết quả tìm kiếm:'
-			render(data);
-		}
-	})
+	var input = document.getElementById("search");;
+	input.addEventListener("keyup", function(event) {
+	    event.preventDefault();
+	    if (event.keyCode === 13) {
+			if(input.value == ''){
+				return;
+			}
+			let data = {
+				value: input.value
+			}
+			$.ajax({
+				type: "POST",
+				url: "/search",
+				data: data,
+				success: function(json){
+					data = json.data;
+					let text = document.getElementById('containerpost');
+					text.innerHTML = 'Kết quả tìm kiếm:'
+					render(data);
+				}
+			})
+	    }
+	});
+
 }

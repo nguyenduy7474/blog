@@ -2,21 +2,23 @@ $.ajax({
 	type: "POST",
 	url: "/getallpost",
 	success: function(json){
-		data = json.found
-		render(data);
+		let found = json.found
+		render(found);
 	}
 })
 
-function render(data){
+function render(found){
 	let slide = [];
+	let data = [];
+		console.log(found)
 
-	for(var i=0; i<data.length; i++){
-		if(data[i].type == "slide"){
-			slide.push(data.slice(i, i+1)[0])
-			data.splice(i, 1)
+	for(var i=0; i<found.length; i++){
+		if(found[i].type == "slide"){
+			slide.push(found[i])
+		}else{
+			data.push(found[i])
 		}
 	}
-
 	const monthNames = ["December", "January", "February", "March", "April", "May", "June",
 	  "July", "August", "September", "October", "November"]
 	let placemainpost = document.getElementById('placemainpost');
