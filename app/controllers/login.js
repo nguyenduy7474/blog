@@ -29,14 +29,16 @@ class Login {
 	static async authen(req, res){
 
 		let data = req.body;
-		let found = await User.findOne(data)
+		User.findOne(data, function(err, found){
+			console.log(found)
+			if(found){
+				req.session.user = found.email
+				res.send({success : "1", status : 200});
+			}else{
+				res.send({failed : "1", status : 200});
+			}
+		})
 
-		if(found){
-			req.session.user = found.email
-			res.send({success : "1", status : 200});
-		}else{
-			res.send({failed : "1", status : 200});
-		}
 	}
 
 	static async signup(req, res){
