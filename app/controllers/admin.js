@@ -23,21 +23,22 @@ class Admin {
 
 	static savepost(req, res){
 		let data = JSON.parse(req.body.datasend);
-
+		console.log(data);
+		data.author = req.session.user
+		data.date = newdate;
 		if(req.file){
-			if(data.id){
+			let path = req.file.destination.slice(req.file.destination.indexOf('img') - 1, req.file.destination.length) + req.file.filename
+			data.img = path
+		}
+		if(data.id){
+			if(data.img){
 				let path = process.cwd() + '/public' + data.img;
 				if(fs.existsSync(path)){
 					fs.unlinkSync(path);
 				}
 			}
 
-			let path = req.file.destination.slice(req.file.destination.indexOf('img') - 1, req.file.destination.length) + req.file.filename
-			data.img = path
-			data.author = req.session.user
-			data.date = newdate;
-		}
-		if(data.id){
+
 			let id = data.id;
 			delete data.id;
 			Content.update({_id: id}, data, function(err){

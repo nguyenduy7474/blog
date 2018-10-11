@@ -85,7 +85,7 @@ function showallslide(){
 				        <td style="width: 45%">`+ data[i].title +`</td>
 				        <td>`+ data[i].category +`</td>
 				        <td>
-				        	<button type="button" class="btn btn-primary" onclick="editpost('`+ data[i]._id +`')">Edit</button>
+				        	<button type="button" class="btn btn-primary" onclick="editslide('`+ data[i]._id +`')">Edit</button>
 				        	<button type="button" class="btn btn-danger" onclick="deletepost('`+ data[i]._id +`')">Delete</button>
 				        </td>
 				      </tr>
@@ -117,9 +117,16 @@ function newSlide(){
 	    </div>
 		<div class="form-group">
 			<label for="exampleFormControlFile1">Upload ảnh bìa</label>
-			<input type="file" class="form-control-file" id="image" name="image" required>
+			<input type="file" class="form-control-file" id="image" name="image">
 		</div>
-		 <button  type="button" class="btn btn-success" onclick="sendData()">New Post</button>
+		<div class="form-group">
+			URL Image: 
+			<input type="text" class="form-control" id="imageurl" name="imageurl" onclick="showimgfromurl()">
+			</br>
+			<div class="form-group" id="placeimagefromurl">
+			</div>		
+		</div>
+		 <button  type="button" class="btn btn-success" onclick="sendData()">New Slide</button>
 		`
 	postplace.innerHTML = str;
 	return;
@@ -144,7 +151,14 @@ function newPost(){
 		</div>
 		<div class="form-group">
 			<label for="exampleFormControlFile1">Upload ảnh bìa</label>
-			<input type="file" class="form-control-file" id="image" name="image" required>
+			<input type="file" class="form-control-file" id="image" name="image">
+		</div>
+		<div class="form-group" >
+			URL Image: 
+			<input type="text" class="form-control" id="imageurl" name="imageurl" onclick="showimgfromurl()">
+			</br>
+			<div class="form-group" id="placeimagefromurl">
+			</div>
 		</div>
 		 <button  type="button" class="btn btn-success" onclick="sendData()">New Post</button>
 		`
@@ -181,6 +195,55 @@ function editpost(id){
 					<label for="exampleFormControlFile1">Upload ảnh bìa</label>
 					<input type="file" class="form-control-file" id="image" name="image">
 					<br>
+					<div class="form-group" >
+						URL Image: 
+						<input type="text" class="form-control" id="imageurl" name="imageurl" onclick="showimgfromurl()">
+						</br>
+						<div class="form-group" id="placeimagefromurl">
+						</div>
+					</div>
+					<img id="hinhanh" src="`+ data.img +`" height="80" width="80">
+				</div>
+				 <button  type="button" class="btn btn-success" onclick="sendData('`+ id +`')">Edit Post</button>
+				`
+			postplace.innerHTML = str;
+			return;
+		}
+	})
+}
+
+function editslide(id){
+	let data = {
+		id: id
+	}
+	$.ajax({
+		type: "post",
+		url: "/singlepost",
+		data: data,
+		success: function(data){
+			let postplace = document.getElementById('postplace');
+			let str = `<div class="container">
+				<h2 for="usr" style="font-family: 'Sans-serif', Times, serif;">Chỉnh Sửa</h2>
+				<h4 id="error" style="color: red" ></h4>
+			    <div class="form-group">
+			      <label for="usr">Tiêu đề</label>
+			      <input type="text" class="form-control" name="title" id="title" value="`+ data.title +`">
+			    </div>
+			    <div class="form-group">
+			      <label for="pwd">Loại</label>
+			      <input type="text" class="form-control" id="category" name="category" value="`+ data.category +`">
+			    </div>
+				<div class="form-group">
+					<label for="exampleFormControlFile1">Upload ảnh bìa</label>
+					<input type="file" class="form-control-file" id="image" name="image">
+					<br>
+					<div class="form-group" >
+						URL Image: 
+						<input type="text" class="form-control" id="imageurl" name="imageurl" onclick="showimgfromurl()">
+						</br>
+						<div class="form-group" id="placeimagefromurl">
+						</div>
+					</div>
 					<img id="hinhanh" src="`+ data.img +`" height="80" width="80">
 				</div>
 				 <button  type="button" class="btn btn-success" onclick="sendData('`+ id +`')">Edit Post</button>
@@ -192,18 +255,24 @@ function editpost(id){
 
 }
 
+function showimgfromurl(){
+	let url = document.getElementById("imageurl")
+	url.oninput = function(){
+	    var urlvalue = url.value;
+	    document.getElementById("placeimagefromurl").innerHTML = '<img src="'+ url.value +'" style="width: 200px" id="imagefromurl">'
+  	}
+}
+
 function sendData(id){
 	let title = $("#title").val()
 	let category = $("#category").val()
 	let content = $("#content").val()
 	let url = to_slug($("#title").val())
 
-	if(title == '' || category == '' || content == '' || url == '' || $('#image')[0].files[0] == undefined ){
-		if(id == undefined && $('#image')[0].files[0] == undefined ){
-			let error = document.getElementById("error");
-			error.innerHTML = "Please input all fields"
-			return;
-		}
+	if(title == '' || category == '' || content == '' || url == ''){
+		let error = document.getElementById("error");
+		error.innerHTML = "Please input all fields"
+		return;
 	}
 
 	datasend = {
@@ -212,7 +281,7 @@ function sendData(id){
 		category: $("#category").val(),
 		content: $("#content").val(),
 		url: to_slug($("#title").val()),
-		img: $("#hinhanh").attr('src')
+		img: $("#imagefromurl").attr('src')
 	}
 	if($("#type").html() == "All Post"){
 		datasend.type = "post"
@@ -229,6 +298,7 @@ function sendData(id){
     if($('#image')[0].files[0] != undefined){
     	data.append('image',$('#image')[0].files[0])
 	}
+
     $.ajax({
 		async: false,
 		cache: false,
