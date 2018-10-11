@@ -43,9 +43,14 @@ function forSignup(){
 
 
 function SignUp(){
+    let email = $("#email").val()
+    let password = $("#password").val()
+    let name = $("#name").val()
+
     data = {
-        email: $("#email").val(),
-        password: $("#password").val()
+        name: name,
+        email: email,
+        password: password
     }
 
     $.ajax({
@@ -54,7 +59,7 @@ function SignUp(){
         data: data,
         success: function(data){
             if(data.failed == "1"){
-                $("#errorcode").html("Wrong email or password");
+                $("#errorcode").html("Please input all fields");
             }
             if(data.success == "1"){
                 $("#errorcode").html("Sign Up Successfull");

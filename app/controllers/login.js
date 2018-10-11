@@ -30,7 +30,7 @@ class Login {
 
 		let data = req.body;
 		User.findOne(data, function(err, found){
-			if(found.email !== '' && found.password !== ''){
+			if(found){
 				req.session.user = found.email
 				res.send({success : "1", status : 200});
 			}else{
@@ -44,13 +44,19 @@ class Login {
 
 		let data = req.body;
 
-		let user = new User(data)
+		if(data.name !== '' && data.email !== '' && data.password !== ''){
+			let user = new User(data)
 
-		user.save((err) => {
-			if(err) throw err
+			user.save((err) => {
+				if(err) throw err
 
-			res.send({success : "1", status : 200});
-		})
+				res.send({success : "1", status : 200});
+			})
+		}else{
+				res.send({failed : "1", status : 200});
+		}
+
+
 
 	}
 
