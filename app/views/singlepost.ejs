@@ -11,12 +11,25 @@
     <!-- Title -->
     <% if(found != null){%>
     <title><%= found.title %></title>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Favicon -->
     <link rel="icon" type="/image/png" sizes="36x36" href="/img/core-img/favicon36.png">
 
     <!-- Style CSS -->
     <link rel="stylesheet" href="/style.css">
+    <style>
+        .btn-facebook {
+            color: #fff;
+            background-color: #4C67A1;
+        }
+        .btn-facebook:hover {
+            color: #fff;
+            background-color: #405D9B;
+        }
+        .btn-facebook:focus {
+            color: #fff;
+        }
+    </style>
 
 </head>
 
@@ -78,6 +91,10 @@
                             <a href="#" style="font-family: 'Sans-serif', Times, serif" class="post-tag"><%= found.category %></a>
                             <h4><a href="#" style="font-family: 'Sans-serif', Times, serif" class="post-headline mb-0"><%= found.title %></a></h4>
                             <div style="font-family: 'Sans-serif', Times, serif"><%- content %></div>
+                        </div>
+                        <div>
+                            <a href="https://www.facebook.com/sharer/sharer.php?u=https://blogcuaduy.herokuapp.com/post/bai-nay-test-thoi.5bbe006d00fc66001564876e.html
+                            " target="_blank" onclick="window.open(this.href,'targetWindow','toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250'); return false"><button style="width:30%; margin-top:10px;" type="button" class="btn btn-facebook btn-lg"><i class="fa fa-facebook fa-2"></i> Share on Facebook</button></a>
                         </div>
                     </div>
 
