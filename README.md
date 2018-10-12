@@ -17,7 +17,9 @@ Blog đơn giản cho mọi người.  </br>
 -Sau đó run bằng 
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ```npm start```
-
--Tài khoản đăng ký đầu tiên sẽ là quyền admin. Được quyền sửa và xóa các user </br>
-
+<h4>Tính Năng</h4> </br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - Tài khoản đăng ký đầu tiên sẽ là quyền admin. Được quyền sửa và xóa các user </br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - Search theo từng từ có trong câu search cả tiếng việt </br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - Quản lý các bài viết, slide, users </br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - Image có thể upload hoặc dùng url image </br>
 Tham khảo qua link: https://blogcuaduy.herokuapp.com</br>
