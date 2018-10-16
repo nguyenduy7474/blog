@@ -1,12 +1,11 @@
 const Content = require('../models/content');
 var dateObj = new Date();
-var month = dateObj.getUTCMonth() + 1; //months from 1-12
-var day = dateObj.getUTCDate();
-var year = dateObj.getUTCFullYear();
 const fs = require('fs');
 const User = require("../models/user");
 
-
+var month = dateObj.getUTCMonth() + 1; //months from 1-12
+var day = dateObj.getUTCDate();
+var year = dateObj.getUTCFullYear();
 newdate = day + "/" + month + "/" + year;
 
 class Admin {

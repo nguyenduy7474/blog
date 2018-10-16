@@ -10,7 +10,6 @@ $.ajax({
 function render(found){
 	let slide = [];
 	let data = [];
-		console.log(found)
 
 	for(var i=0; i<found.length; i++){
 		if(found[i].type == "slide"){
@@ -36,6 +35,7 @@ function render(found){
 		post.month = month
 		//post.content = post.content.slice(0, post.content.indexOf('\n'));
 	})
+
 
 	for(var i=0; i<slide.length;i++){
 		strslide += `            
