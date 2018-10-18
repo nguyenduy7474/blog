@@ -32,7 +32,24 @@ class SinglePost {
 	static getsinglepost(req, res){
 		let id= req.body.id;
 		Content.findOne({_id: id}, function(err, data){
-			res.send(data);
+			if(err) throw err
+
+			Content.find({type: "comment", idpost: id}, function(errcmt, foundcmt){
+				let datasend = {
+					data: data,
+					datacmt: foundcmt
+				}
+				res.send(datasend);
+			})
+		})
+	}
+
+	static deletecmt(req, res){
+		let idcmt = req.body.idcmt
+		Content.remove({_id: idcmt}, function(err){
+			if(err) throw err
+
+			res.send({success: true})
 		})
 	}
 

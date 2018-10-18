@@ -224,6 +224,7 @@ function newSlide(){
 			<div class="form-group" id="placeimagefromurl">
 			</div>		
 		</div>
+		<p id="erroruploadimg"></p>
 		 <button  type="button" class="btn btn-success" onclick="sendData()">New Slide</button>
 		`
 	postplace.innerHTML = str;
@@ -258,6 +259,7 @@ function newPost(){
 			<div class="form-group" id="placeimagefromurl">
 			</div>
 		</div>
+		<p id="erroruploadimg"></p>
 		 <button  type="button" class="btn btn-success" onclick="sendData()">New Post</button>
 		`
 	postplace.innerHTML = str;
@@ -272,8 +274,11 @@ function editpost(id){
 		type: "post",
 		url: "/singlepost",
 		data: data,
-		success: function(data){
+		success: function(json){
+			let data = json.data
+			let datacmt = json.datacmt
 			let postplace = document.getElementById('postplace');
+			let commentplace = document.getElementById('commentplace');
 			let str = `<div class="container">
 				<h2 for="usr" style="font-family: 'Sans-serif', Times, serif;">Chỉnh Sửa</h2>
 				<h4 id="error" style="color: red" ></h4>
@@ -302,10 +307,71 @@ function editpost(id){
 					</div>
 					<img id="hinhanh" src="`+ data.img +`" height="80" width="80">
 				</div>
+				<p id="erroruploadimg"></p>
 				 <button  type="button" class="btn btn-success" onclick="sendData('`+ id +`')">Edit Post</button>
 				`
+			let strcmt = `
+					<br>
+				  <h2 style="text-align:left;float:left;" id="type">All Comment</h2>
+				  <table class="table">
+				    <thead>
+				      <tr>
+				        <th>Tên người đăng</th>
+				        <th>Nội dung</th>
+				        <th>Ngày Đăng</th>
+				        <th>Hành Động</th>
+				      </tr>
+				    </thead>
+				    <tbody>`
+					for(var i=0; i< datacmt.length; i++){
+						console.log(datacmt[i])
+						strcmt += `
+					      <tr>
+					        <td style="width: 45%">`+ datacmt[i].name +`</td>
+					        <td>`+ datacmt[i].comment +`</td>
+					        <td>`+ datacmt[i].date +`</td>
+					        <td>
+					        	<button type="button" class="btn btn-danger" onclick="deletecmt('`+ datacmt[i]._id +`')">Delete Comment</button>
+					        </td>
+					      </tr>
+							`
+					}
+
+					strcmt += `</tbody>
+						  </table>`
+
+			commentplace.innerHTML = strcmt
 			postplace.innerHTML = str;
 			return;
+		}
+	})
+}
+
+function deletecmt(idcmt){
+	let data = {
+		idcmt: idcmt
+	}
+	
+	swal({
+	  title: 'Are you sure?',
+	  text: "You won't be able to revert this!",
+	  type: 'warning',
+	  showCancelButton: true,
+	  confirmButtonColor: '#3085d6',
+	  cancelButtonColor: '#d33',
+	  confirmButtonText: 'Yes, delete it!'
+	}).then((result) => {
+		if(result.value){
+			$.ajax({
+				type: "post",
+				url: "/deletecmt",
+				data: data,
+				success: function(json){
+					if(json.success){
+						window.location.href = '/admin'
+					}
+				}
+			})
 		}
 	})
 }
@@ -344,6 +410,7 @@ function editslide(id){
 					</div>
 					<img id="hinhanh" src="`+ data.img +`" height="80" width="80">
 				</div>
+				<p id="erroruploadimg"></p>
 				 <button  type="button" class="btn btn-success" onclick="sendData('`+ id +`')">Edit Post</button>
 				`
 			postplace.innerHTML = str;
@@ -396,7 +463,6 @@ function sendData(id){
     if($('#image')[0].files[0] != undefined){
     	data.append('image',$('#image')[0].files[0])
 	}
-
     $.ajax({
 		async: false,
 		cache: false,
@@ -409,6 +475,9 @@ function sendData(id){
 		type: "post",
 		data: data,
 		success: function(data){
+			if(data == "Please choose image"){
+				$("#erroruploadimg").html(data)
+			}
 			if(data.success == 1){
 				window.location.href = '/admin'
 			}

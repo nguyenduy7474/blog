@@ -46,6 +46,11 @@ class Login {
 		if(data.name == '' || data.email == '' || data.password == ''){
 			res.send({failed : "Please input all fields", status : 200});
 		}else{
+			
+			data.name = req.sanitize(data.name)
+			data.email = req.sanitize(data.email)
+			data.password = req.sanitize(data.password)
+
 			User.find({}, function(err, found){
 				if(err) throw err
 				if(found.length > 0){

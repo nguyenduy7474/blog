@@ -2,6 +2,8 @@ const Content = require('../models/content');
 var dateObj = new Date();
 const fs = require('fs');
 const User = require("../models/user");
+var xss = require("xss");
+
 
 var month = dateObj.getUTCMonth() + 1; //months from 1-12
 var day = dateObj.getUTCDate();
@@ -54,26 +56,44 @@ class Admin {
 		let data = JSON.parse(req.body.datasend);
 		data.author = req.session.user
 		data.date = newdate;
+
 		if(req.file){
 			let path = req.file.destination.slice(req.file.destination.indexOf('img') - 1, req.file.destination.length) + req.file.filename
 			data.img = path
 		}
+
+		data.title = req.sanitize(data.title)
+		data.category = req.sanitize(data.category)
+		data.content = req.sanitize(data.content)
+		data.img = req.sanitize(data.img)
+
 		if(data.id){
-			if(data.img){
-				let path = process.cwd() + '/public' + data.img;
-				if(fs.existsSync(path)){
-					fs.unlinkSync(path);
+			Content.findOne({_id: data.id}, function(err, found){
+				if(err) throw err;
+				if(data.img){
+					let path = process.cwd() + '/public' + found.img;
+					if(fs.existsSync(path)){
+						fs.unlinkSync(path);
+					}
+				}else{
+					data.img = found.img
 				}
+
+				let id = data.id;
+				delete data.id;
+				Content.updateOne({_id: id}, data, function(errupdate){
+					if(errupdate) throw errupdate;
+					res.send({success: 1});
+				})			
+			})
+
+		}else{
+
+			if(!req.file && !data.img){
+				res.send("Please choose image");
+				return
 			}
 
-
-			let id = data.id;
-			delete data.id;
-			Content.update({_id: id}, data, function(err){
-				if(err) throw err;
-				res.send({success: 1});
-			})
-		}else{
 			Content.insertMany(data, function(err){
 				if(err) throw err;
 				res.send({success: 1});
@@ -90,9 +110,13 @@ class Admin {
 				fs.unlinkSync(path);
 			}
 
-			Content.remove({_id: id}, function(err){
+			Content.remove({type: "post", _id: id}, function(err){
 				if(err) throw err
-				res.send({success: 1})
+
+				Content.remove({type: "comment", idpost: id}, function(errcmt){
+					if(errcmt) throw errcmt
+					res.send({success: 1})
+				})
 			})
 		})
 

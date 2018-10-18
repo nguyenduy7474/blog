@@ -1,16 +1,30 @@
 var Admin = require('../app/controllers/admin');
 var Login = require('../app/controllers/login');
 var multer = require("multer");
+const path = require('path');
+
 
 const storage = multer.diskStorage({
     destination: function(req, file, callback){
-        callback(null, process.cwd() + '/public/img/blog-img/'); // set the destination
+        callback(null, './public/img/blog-img/'); // set the destination
     },
     filename: function(req, file, callback){
         callback(null, Date.now() + "_" + file.originalname); // set the file name and extension
     }
 });
-const upload = multer({storage: storage});
+const upload = multer({storage: storage,
+                          fileFilter: function (req, file, cb) {
+
+                            var filetypes = /jpeg|jpg|png/;
+                            var mimetype = filetypes.test(file.mimetype);
+                            var extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+
+                            if (mimetype && extname) {
+                              return cb(null, true);
+                            }
+                            cb(null, false);
+                          }
+                    });
 
 //you can include all your controllers
 

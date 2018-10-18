@@ -4,6 +4,7 @@ var app = express();
 var multer = require('multer')
 var constants = require('constants');
 var constant = require('./config/constants');
+var expressSanitizer = require('express-sanitizer');
 
 
 var port = process.env.PORT || 8042;
@@ -15,6 +16,7 @@ var path = require('path');
 var morgan = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+
 var session = require('express-session');
 var bodyParser = require('body-parser');
 var dateFormat = require('dateformat');
@@ -23,7 +25,7 @@ var fs = require('fs');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-
+app.use(expressSanitizer());
 
 /***************Mongodb configuratrion********************/
 var mongoose = require('mongoose');

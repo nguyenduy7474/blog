@@ -18,7 +18,8 @@ class Home {
 	}
 
 	static searching(req, res){
-		let value = to_slug(req.body.value).split(' ');
+		let value = req.sanitize(req.body.value)
+		value = to_slug(value).split(' ');
 
 		Content.find({type: "post"}, function(err, found){
 			let arraysearch = []

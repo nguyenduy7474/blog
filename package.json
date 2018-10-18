@@ -16,6 +16,7 @@
     "ejs": "~2.3.3",
     "express": "~4.13.1",
     "express-mailer": "^0.3.0",
+    "express-sanitizer": "^1.0.4",
     "express-session": "latest",
     "fs-extra": "latest",
     "http-proxy": "latest",
@@ -37,7 +38,8 @@
     "serve-favicon": "~2.3.0",
     "simple-encryptor": "latest",
     "sweetalert2": "^7.28.2",
-    "underscore": "latest"
+    "underscore": "latest",
+    "xss": "^1.0.3"
   },
   "scripts": {
     "start": "node app.js"
