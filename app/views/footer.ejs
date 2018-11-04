@@ -37,12 +37,35 @@
                     
                     <!-- Footer Social Area -->
                     <div class="footer-social-area mt-30">
-                        <a href="#" data-toggle="tooltip" data-placement="top" title="Pinterest"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
-                        <a href="#" data-toggle="tooltip" data-placement="top" title="Facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                        <a href="#" data-toggle="tooltip" data-placement="top" title="Twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-                        <a href="#" data-toggle="tooltip" data-placement="top" title="Dribbble"><i class="fa fa-dribbble" aria-hidden="true"></i></a>
-                        <a href="#" data-toggle="tooltip" data-placement="top" title="Behance"><i class="fa fa-behance" aria-hidden="true"></i></a>
-                        <a href="#" data-toggle="tooltip" data-placement="top" title="Linkedin"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                        <div id="useronline"></div><div id="countview"></div>
+                        <script src="/socket.io/socket.io.js"></script>
+                        <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+                        <script>
+                            $(function () {
+                                var socket = io();
+
+                                $('form').submit(function(){
+                                  socket.emit('chat message', $('#m').val());
+                                  $('#m').val('');
+                                  return false;
+                                });
+
+                                socket.on('count view', function(data){
+                                  let useronlinediv = document.getElementById("countview")
+                                  useronlinediv.innerHTML  = "<b>All View: </b>" + data.countview
+                                });
+
+                                socket.on('a user connected', function(useronline){
+                                  let useronlinediv = document.getElementById("useronline")
+                                  useronlinediv.innerHTML  = "<b>User Online: </b>" + useronline
+                                });
+
+                                socket.on('a user disconnected', function(useronline){
+                                  let useronlinediv = document.getElementById("useronline")
+                                  useronlinediv.innerHTML  = "<b>User Online: </b>" + useronline
+                                });
+                            });
+                    </script>
                     </div>
                 </div>
             </div>

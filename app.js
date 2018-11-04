@@ -1,4 +1,5 @@
 var express = require('express');
+let useronline = 0
 
 var app = express();
 var multer = require('multer')
@@ -74,7 +75,44 @@ app.use(function(req, res, next) {
 
 
 //launch ======================================================================
-app.listen(port);
+//app.listen(port);
+let CountView = require('./app/models/viewonpage')
+var server = require("http").Server(app);
+var io = require("socket.io")(server);
+
+server.listen(port);
+
+
+io.on('connection', function(socket){
+	CountView.findOne({}, function(err, data){
+		if(err) throw err
+
+		if(data){
+			data.countview = data.countview + 1
+		}else{
+			let datasave = {
+				countview: 1
+			}
+			data = new CountView(datasave)
+		}
+
+		data.save((errs) => {
+			if(err) throw errs
+
+			io.emit('count view', data);
+			useronline++
+			io.emit('a user connected', useronline);
+			socket.on('disconnect', function(){
+			useronline--
+				io.emit('a user disconnected', useronline);
+			});
+		})
+
+	})
+});
+
+
+
 console.log('The magic happens on port ' + port);
 
 //catch 404 and forward to error handler

@@ -37,6 +37,7 @@
     "request": "latest",
     "serve-favicon": "~2.3.0",
     "simple-encryptor": "latest",
+    "socket.io": "^2.1.1",
     "sweetalert2": "^7.28.2",
     "underscore": "latest",
     "xss": "^1.0.3"

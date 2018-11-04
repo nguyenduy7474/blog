@@ -34,7 +34,7 @@ class SinglePost {
 		Content.findOne({_id: id}, function(err, data){
 			if(err) throw err
 
-			Content.find({type: "comment", idpost: id}, function(errcmt, foundcmt){
+			Content.find({idpost: id}, function(errcmt, foundcmt){
 				let datasend = {
 					data: data,
 					datacmt: foundcmt

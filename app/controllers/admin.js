@@ -104,20 +104,29 @@ class Admin {
 
 	static deletepost(req, res){
 		let id = req.body.id;
+		let type = req.body.type
 		Content.findOne({_id: id}, function(err, found){
 			let path = process.cwd() + '/public' + found.img;
 			if(fs.existsSync(path)){
 				fs.unlinkSync(path);
 			}
 
-			Content.remove({type: "post", _id: id}, function(err){
-				if(err) throw err
+			if(type == "post"){
+				Content.remove({type: "post", _id: id}, function(err){
+					if(err) throw err
 
-				Content.remove({type: "comment", idpost: id}, function(errcmt){
-					if(errcmt) throw errcmt
+					Content.remove({type: "comment", idpost: id}, function(errcmt){
+						if(errcmt) throw errcmt
+						res.send({success: 1})
+					})
+				})
+			}else{
+				Content.remove({type: "slide", _id: id}, function(err){
+					if(err) throw err
 					res.send({success: 1})
 				})
-			})
+			}
+
 		})
 
 	}

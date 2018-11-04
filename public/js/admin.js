@@ -135,7 +135,7 @@ function showallpost(){
 				        <td>`+ data[i].date +`</td>
 				        <td>
 				        	<button type="button" class="btn btn-primary" onclick="editpost('`+ data[i]._id +`')">Edit</button>
-				        	<button type="button" class="btn btn-danger" onclick="deletepost('`+ data[i]._id +`')">Delete</button>
+				        	<button type="button" class="btn btn-danger" onclick="deletepost('`+ data[i]._id +`','post')">Delete</button>
 				        </td>
 				      </tr>
 						`
@@ -161,6 +161,7 @@ function showallslide(){
 		data: data,
 		success: function(json){
 			let data = json.found
+			let commentplace = document.getElementById('commentplace');
 
 			let str = `
 					<br>
@@ -172,7 +173,7 @@ function showallslide(){
 				    <thead>
 				      <tr>
 				        <th>Tiêu Đề</th>
-				        <th>Mục</th>
+				        <th>Loại</th>
 				        <th>Hành Động</th>
 				      </tr>
 				    </thead>
@@ -184,7 +185,7 @@ function showallslide(){
 				        <td>`+ data[i].category +`</td>
 				        <td>
 				        	<button type="button" class="btn btn-primary" onclick="editslide('`+ data[i]._id +`')">Edit</button>
-				        	<button type="button" class="btn btn-danger" onclick="deletepost('`+ data[i]._id +`')">Delete</button>
+				        	<button type="button" class="btn btn-danger" onclick="deletepost('`+ data[i]._id +`','slide')">Delete</button>
 				        </td>
 				      </tr>
 					`
@@ -195,6 +196,7 @@ function showallslide(){
 
 			placetable.innerHTML= str;
 			postplace.innerHTML = "";
+			commentplace.innerHTML = ""
 		}
 	})
 
@@ -384,7 +386,8 @@ function editslide(id){
 		type: "post",
 		url: "/singlepost",
 		data: data,
-		success: function(data){
+		success: function(json){
+			let data = json.data
 			let postplace = document.getElementById('postplace');
 			let str = `<div class="container">
 				<h2 for="usr" style="font-family: 'Sans-serif', Times, serif;">Chỉnh Sửa</h2>
@@ -411,8 +414,9 @@ function editslide(id){
 					<img id="hinhanh" src="`+ data.img +`" height="80" width="80">
 				</div>
 				<p id="erroruploadimg"></p>
-				 <button  type="button" class="btn btn-success" onclick="sendData('`+ id +`')">Edit Post</button>
+				 <button  type="button" class="btn btn-success" onclick="sendData('`+ id +`')">Edit Slide</button>
 				`
+
 			postplace.innerHTML = str;
 			return;
 		}
@@ -485,8 +489,9 @@ function sendData(id){
 	})
 }
 
-function deletepost(id){
+function deletepost(id,type){
 	data = {
+		type: type,
 		id: id
 	}
 	swal({
