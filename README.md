@@ -20,6 +20,7 @@ Blog đơn giản cho mọi người.  </br>
 <h4>Tính Năng</h4>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - Tài khoản đăng ký đầu tiên sẽ là quyền admin. Được quyền sửa và xóa các user </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - Search theo từng từ có trong câu search cả tiếng việt </br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - Quản lý các bài viết, slide, users </br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - Quản lý các bài viết, slide, users, comment </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - Image có thể upload hoặc dùng url image </br> </br>
+
 Tham khảo qua link: https://blogcuaduy.herokuapp.com</br>
