@@ -53,7 +53,7 @@ app.set('view engine', 'ejs');
 //app.use(session({ secret: 'iloveyoudear...' })); // session secret
 
 app.use(session({
-    secret: 'I Love India...',
+    secret: 'I Love VietNam...',
     resave: true,
     saveUninitialized: true
 }));
@@ -79,6 +79,7 @@ app.use(function(req, res, next) {
 let CountView = require('./app/models/viewonpage')
 var server = require("http").Server(app);
 var io = require("socket.io")(server);
+var http = require("http");
 
 server.listen(port);
 
@@ -111,6 +112,9 @@ io.on('connection', function(socket){
 	})
 });
 
+setInterval(function() {
+    http.get("http://blogcuaduy.herokuapp.com");
+}, 300000); // every 5 minutes (300000)
 
 
 console.log('The magic happens on port ' + port);
