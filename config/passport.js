@@ -1,10 +1,10 @@
 var LocalStrategy   = require('passport-local').Strategy;
 
-var User            = require('../app/models/home');
+var User            = require('../app/models/user');
 
 var bcrypt = require('bcrypt-nodejs');
 
-var configAuth = require('./auth.js');
+//var configAuth = require('./auth.js');
 var constant = require('../config/constants');
 var dateFormat = require('dateformat');
 var fs = require('fs');
@@ -52,40 +52,36 @@ module.exports = function(passport) {
 
         // find a user whose email is the same as the forms email
         // we are checking to see if the user trying to login already exists
-        User.findOne({ 'mail' :  email }, function(err, user) {
+        User.findOne({email: email}, function(err, user) {
             // if there are any errors, return the error
             if (err)
                 return done(err);
-
             // check to see if theres already a user with that email
             if (user) {
-                return done(null, false, req.flash('error', 'That email is already taken.'));
+                return done(null, false, {'success': '0'});
             } else {
             	
             	
            User.find().sort([['_id', 'descending']]).limit(1).exec(function(err, userdata) {	
-
-        	   
                 // if there is no user with that email
                 // create the user
+
                 var newUser            = new User();
 
                 // set the user's local credentials
                 
            	  var day =dateFormat(Date.now(), "yyyy-mm-dd HH:MM:ss");
            	 
-           	  var active_code=bcrypt.hashSync(Math.floor((Math.random() * 99999999) *54), null, null);
-           	 
-               
-                    newUser.mail    = email;
-                    newUser.password = newUser.generateHash(password);
-                    newUser.name = req.body.username;
-                    newUser.created_date = day;
-                    newUser.updated_date = day;
-                    newUser.status = 'active'; //inactive for email actiavators
-                    newUser.active_hash = active_code;
-                    newUser._id = userdata[0]._id+1;
-
+           	  //var active_code=bcrypt.hashSync(Math.floor((Math.random() * 99999999) *54), null, null);
+           	    
+                newUser.email    = email;
+                newUser.email    = email;
+                newUser.password = newUser.generateHash(password);
+                newUser.name = req.body.name;
+                newUser.created_date = day;
+                if(userdata.length < 1){
+                    newUser.grant = "admin"
+                }
 
                 // save the user
                 newUser.save(function(err) {
@@ -96,7 +92,7 @@ module.exports = function(passport) {
                     email.activate_email(req.body.username,req.body.email,active_code);
                                         return done(null, newUser,req.flash('success', 'Account Created Successfully,Please Check Your Email For Account Confirmation.'));
                     */
-                    return done(null, newUser,req.flash('success', 'Account Created Successfully'));
+                    return done(null, newUser, {'success': '1'});
                     
                     req.session.destroy();
                 
@@ -133,30 +129,25 @@ module.exports = function(passport) {
     	
         // find a user whose email is the same as the forms email
         // we are checking to see if the user trying to login already exists
-        User.findOne({ 'mail' :  email }, function(err, user) {
+        User.findOne({ 'email' :  email }, function(err, user) {
             // if there are any errors, return the error before anything else
-            
             if (err)
-            return done(null, false, req.flash('error', err)); // req.flash is the way to set flashdata using connect-flash
+            return done(null, false, {'error': err}); // req.flash is the way to set flashdata using connect-flash
 
 
             // if no user is found, return the message
             if (!user)
-                return done(null, false, req.flash('error', 'Sorry Your Account Not Exits ,Please Create Account.')); // req.flash is the way to set flashdata using connect-flash
+                return done(null, false, {'error': 'Sorry Your Account Not Exits ,Please Create Account.'}); // req.flash is the way to set flashdata using connect-flash
 
             
             
             // if the user is found but the password is wrong
             if (!user.validPassword(password))
-                return done(null, false, req.flash('error', 'Email and Password Does Not Match.')); // create the loginMessage and save it to session as flashdata
-
-            if(user.status === 'inactive')
-             return done(null, false, req.flash('error', 'Your Account Not Activated ,Please Check Your Email')); // create the loginMessage and save it to session as flashdata
-            
+                return done(null, false, {'error': 'Email and Password Does Not Match.'}); // create the loginMessage and save it to session as flashdata
             
             // all is well, return successful user
             req.session.user = user;
-		
+		      
             return done(null, user);
         });
 

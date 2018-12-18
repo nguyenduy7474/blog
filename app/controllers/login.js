@@ -4,6 +4,7 @@ const User = require("../models/user");
 class Login {
 
 	static loggedIn(req, res, next) {
+		console.log(req.session.user)
 		if (req.session.user) { // req.session.passport._id
 
 			next();

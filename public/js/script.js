@@ -12,12 +12,15 @@ function SignIn(){
         url: "/authen",
         data: data,
         success: function(data){
-            if(data.failed == "1"){
-                $("#errorcode").html("Wrong email or password");
+            if(data.error == "0"){
+                $("#errorcode").html("Sorry Your Account Not Exits ,Please Create Account.");
             }
-            if(data.success == "1"){
-                window.location.href="/login"
-            }        
+
+            if(data.error == "1"){
+                $("#errorcode").html("Email and Password Does Not Match.");
+            }else{
+                window.location.href="/admin"
+            }     
         }
     })
 }
@@ -58,12 +61,9 @@ function SignUp(){
         url: "/signup",
         data: data,
         success: function(data){
-            if(data.failed){
-                $("#errorcode").html(data.failed);
-            }
-            console.log(data)
             if(data.success == "1"){
-                $("#errorcode").html("Sign Up Successfull");
+                $("#errorcode").html("Account Created Successfully");
+                $("#errorcode").css("color", "#218838")
                 let str = `
                     <div class="form-group">
                         <label class="sr-only" for="form-username">Email</label>
@@ -79,7 +79,10 @@ function SignUp(){
                         </div>`
                 $("#form").html(str);
                 $("#buttonsignup").html(button);
-            }        
+            }else{
+                $("#errorcode").html("That email is already taken.")
+                $("#errorcode").css("color", "#A52A2A")    
+            }    
         }
     })
 }

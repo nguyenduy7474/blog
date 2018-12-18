@@ -326,7 +326,6 @@ function editpost(id){
 				    </thead>
 				    <tbody>`
 					for(var i=0; i< datacmt.length; i++){
-						console.log(datacmt[i])
 						strcmt += `
 					      <tr>
 					        <td style="width: 45%">`+ datacmt[i].name +`</td>

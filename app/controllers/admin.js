@@ -23,7 +23,6 @@ class Admin {
 	
 	static getallusers(req, res){
 		User.find({grant: {$not: {$eq: "admin"}}}, function(err, found){
-			console.log(found)
 			res.send({found: found});
 		})
 	}
@@ -34,14 +33,11 @@ class Admin {
 
 	static checkadmin(req, res){
 		let user = req.session.user;
-
-		User.findOne({email: user}, function (err, found) {
-			if(found.grant == 'admin'){
-				res.send({admin: true});
-			}else{
-				res.send({admin: false});
-			}
-		})
+		if(user.grant == 'admin'){
+			res.send({admin: true});
+		}else{
+			res.send({admin: false});
+		}
 	}
 
 
@@ -54,7 +50,7 @@ class Admin {
 
 	static savepost(req, res){
 		let data = JSON.parse(req.body.datasend);
-		data.author = req.session.user
+		data.author = req.session.user.email
 		data.date = newdate;
 
 		if(req.file){
